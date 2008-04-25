@@ -1346,6 +1346,9 @@ JSSpec.util = {
 	escapeTags: function(string) {
 		return string.replace(/</img, '&lt;').replace(/>/img, '&gt;');
 	},
+	escapeMetastring: function(string) {
+		return string.replace(/\r/img, '\\r').replace(/\n/img, '\\n').replace(/\&para\;\<BR\>/img, '\\n').replace(/\t/img, '\\t');
+	},
 	parseOptions: function(defaults) {
 		var options = defaults;
 		
@@ -1444,7 +1447,7 @@ JSSpec.util = {
 
 		if(typeof o == 'undefined') return '<span class="undefined_value">undefined</span>';
 		if(o == null) return '<span class="null_value">null</span>';
-		if(o._type == 'String') return '<span class="string_value">"' + (dontEscape ? o : JSSpec.util.escapeHtml(o)) + '"</span>';
+		if(o._type == 'String') return '<span class="string_value">"' + (dontEscape ? JSSpec.util.escapeMetastring(o) : JSSpec.util.escapeHtml(JSSpec.util.escapeMetastring(o))) + '"</span>';
 
 		if(o._type == 'Date') {
 			return '<span class="date_value">"' + o.toString() + '"</span>';
